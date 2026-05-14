@@ -3,53 +3,54 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <title>🍿 Pipoca Control</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="theme-color" content="#f59e0b"/>
+  <meta name="color-scheme" content="only light"/>
+  <title>Pipoca Control</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0; padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-touch-callout: none;
-    }
+    /* Forçar modo claro — impede iOS de inverter cores */
     :root {
-      --amber:      #f59e0b;
-      --amber-dark: #d97706;
-      --amber-deep: #92400e;
-      --amber-soft: #fef3c7;
-      --bg:         #1c1008;
-      --surface:    #2a1a08;
-      --surface2:   #3a2410;
-      --border:     #4a3018;
-      --text:       #fef9f0;
-      --text-muted: #c4a882;
-      --text-dim:   #8a6848;
-      --green:      #16a34a;
-      --red:        #ef4444;
-      --radius:     14px;
-      --radius-lg:  20px;
-      --radius-xl:  28px;
-    }
-    html { height: 100%; }
-    body {
-      min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Nunito Sans', sans-serif;
-      font-size: 15px;
-      line-height: 1.5;
-      overflow-x: hidden;
+      color-scheme: only light;
+      -webkit-color-scheme: light;
     }
 
 ```
-/* HEADER */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+html {
+  height: 100%;
+  /* Fundo escuro quente */
+  background-color: #1c1008;
+}
+
+body {
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  background-color: #1c1008;
+  color: #fef9f0;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* ── HEADER ── */
 .header {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 55%, #b45309 100%);
   padding: 16px 18px 20px;
+  /* Safe area para notch do iPhone */
+  padding-top: max(16px, calc(env(safe-area-inset-top) + 8px));
   position: relative;
   overflow: hidden;
 }
@@ -58,10 +59,11 @@
   position: absolute;
   top: -30px; right: -20px;
   width: 140px; height: 140px;
-  background: rgba(255,255,255,.08);
+  background: rgba(255,255,255,.1);
   border-radius: 50%;
   pointer-events: none;
 }
+
 .header-top {
   display: flex;
   align-items: center;
@@ -69,72 +71,83 @@
   margin-bottom: 14px;
   position: relative;
   z-index: 1;
+  gap: 10px;
 }
-.brand { display: flex; align-items: center; gap: 10px; }
-.brand-emoji { font-size: 28px; line-height: 1; }
+
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand-emoji { font-size: 26px; line-height: 1; }
 .brand-text h1 {
   font-family: 'Nunito', sans-serif;
-  font-size: 20px; font-weight: 900;
+  font-size: 19px; font-weight: 900;
   color: #1c0a00; line-height: 1.1;
 }
-.brand-text p { font-size: 11.5px; color: rgba(28,10,0,.65); font-weight: 600; }
-.header-actions { display: flex; gap: 8px; align-items: center; }
+.brand-text p { font-size: 11px; color: rgba(28,10,0,.6); font-weight: 700; }
 
-/* BOTÕES */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  border-radius: var(--radius);
+.header-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+/* ── BOTÕES ── */
+button {
   font-family: 'Nunito', sans-serif;
-  font-weight: 800;
   cursor: pointer;
   border: none;
   outline: none;
-  white-space: nowrap;
-  -webkit-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
-  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: opacity .15s, transform .15s;
 }
-.btn:active { opacity: .8; transform: scale(.95); }
-.btn:disabled { opacity: .55; }
+button:active { opacity: .75; transform: scale(.93); }
+button:disabled { opacity: .5; transform: none !important; }
 
 .btn-nova {
-  background: #1c0a00;
+  background-color: #1c0a00;
   color: #f59e0b;
-  padding: 11px 18px;
-  font-size: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.4);
-}
-.btn-ajuda {
-  width: 42px; height: 42px;
-  background: rgba(28,10,0,.3);
-  color: #1c0a00;
   border-radius: 12px;
-  padding: 0;
-}
-.btn-cancelar {
-  background: transparent;
-  color: var(--text-muted);
-  padding: 10px 14px;
-  font-size: 13px;
-}
-.btn-salvar {
-  width: 100%;
-  background: #16a34a;
-  color: #ffffff;
-  padding: 15px;
-  font-size: 16px;
-  border-radius: var(--radius-lg);
-  margin-top: 4px;
-  box-shadow: 0 3px 12px rgba(22,163,74,.35);
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
 }
 
-/* STATS */
+.btn-ajuda {
+  background-color: rgba(28,10,0,.35);
+  color: #1c0a00;
+  border-radius: 12px;
+  width: 42px; height: 42px;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.btn-cancelar {
+  background: transparent;
+  color: #c4a882;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.btn-salvar {
+  width: 100%;
+  background-color: #16a34a;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 4px;
+  box-shadow: 0 3px 14px rgba(22,163,74,.4);
+}
+
+/* ── STATS ── */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -142,30 +155,33 @@
   position: relative; z-index: 1;
 }
 .stat-pill {
-  background: rgba(28,10,0,.3);
+  background-color: rgba(28,10,0,.28);
   border-radius: 12px;
   padding: 10px 8px;
   text-align: center;
 }
-.stat-pill .val {
+.stat-val {
   font-family: 'Nunito', sans-serif;
   font-size: 18px; font-weight: 900;
   color: #1c0a00; line-height: 1;
+  display: block;
 }
-.stat-pill .lbl {
-  font-size: 10.5px; color: rgba(28,10,0,.6);
-  font-weight: 700; text-transform: uppercase;
+.stat-lbl {
+  font-size: 10px; color: rgba(28,10,0,.55);
+  font-weight: 800; text-transform: uppercase;
   letter-spacing: .5px; margin-top: 2px;
+  display: block;
 }
 
-/* BODY */
+/* ── BODY ── */
 .body-wrap {
   padding: 16px;
   display: flex; flex-direction: column;
-  gap: 14px; padding-bottom: 40px;
+  gap: 14px;
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 24px));
 }
 
-/* FILTROS */
+/* ── FILTROS ── */
 .filter-row {
   display: flex; gap: 8px;
   overflow-x: auto; padding-bottom: 2px;
@@ -175,74 +191,74 @@
 .filter-chip {
   flex-shrink: 0;
   padding: 7px 14px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
+  background-color: #2a1a08;
+  border: 1.5px solid #4a3018;
   border-radius: 20px;
   font-family: 'Nunito', sans-serif;
   font-size: 13px; font-weight: 700;
-  color: var(--text-muted);
-  cursor: pointer; touch-action: manipulation;
+  color: #c4a882;
+  cursor: pointer;
+  touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
-  transition: background .15s, color .15s;
 }
 .filter-chip.active {
-  background: var(--amber);
-  border-color: var(--amber);
+  background-color: #f59e0b;
+  border-color: #f59e0b;
   color: #1c0a00;
 }
 
-/* SECTION */
+/* ── SEÇÃO ── */
 .section-header { display: flex; align-items: center; justify-content: space-between; }
-.section-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; color: var(--text); }
-.section-count { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+.section-title  { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800; color: #fef9f0; }
+.section-count  { font-size: 12px; color: #8a6848; font-weight: 600; }
 
-/* CARDS */
+/* ── CARDS ── */
 .sales-list { display: flex; flex-direction: column; gap: 10px; }
 .sale-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  background-color: #2a1a08;
+  border: 1px solid #4a3018;
+  border-radius: 18px;
   padding: 14px 16px;
   display: flex; gap: 12px; align-items: flex-start;
-  animation: cardIn .25s ease both;
+  animation: cardIn .22s ease both;
 }
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.sale-emoji { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
-.sale-info  { flex: 1; min-width: 0; }
-.sale-top   { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
-.sale-client { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sale-price  { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: var(--amber); flex-shrink: 0; }
-.sale-detail { font-size: 13px; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.sale-time   { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+@keyframes cardIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
-.tag { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 10px; font-size: 11.5px; font-weight: 700; font-family: 'Nunito', sans-serif; }
-.tag-p        { background: #fef9c3; color: #713f12; }
-.tag-m        { background: #fde68a; color: #78350f; }
-.tag-g        { background: #f59e0b; color: #1c0a00; }
-.tag-pix      { background: #d1fae5; color: #064e3b; }
-.tag-dinheiro { background: #dcfce7; color: #14532d; }
-.tag-credito  { background: #dbeafe; color: #1e3a8a; }
-.tag-debito   { background: #e0e7ff; color: #3730a3; }
+.sale-emoji  { font-size: 24px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.sale-info   { flex: 1; min-width: 0; }
+.sale-top    { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.sale-client { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; color: #fef9f0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sale-price  { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 900; color: #f59e0b; flex-shrink: 0; }
+.sale-tags   { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.sale-time   { font-size: 11px; color: #8a6848; margin-top: 4px; }
 
-.empty { text-align: center; padding: 48px 24px; color: var(--text-dim); }
-.empty-icon { font-size: 52px; margin-bottom: 12px; }
-.empty p    { font-size: 15px; color: var(--text-muted); font-weight: 600; }
-.empty small { font-size: 13px; }
+.tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: 800; font-family: 'Nunito', sans-serif; }
+.tag-p        { background-color: #fef9c3; color: #713f12; }
+.tag-m        { background-color: #fde68a; color: #78350f; }
+.tag-g        { background-color: #f59e0b; color: #1c0a00; }
+.tag-pix      { background-color: #d1fae5; color: #064e3b; }
+.tag-dinheiro { background-color: #dcfce7; color: #14532d; }
+.tag-credito  { background-color: #dbeafe; color: #1e3a8a; }
+.tag-debito   { background-color: #e0e7ff; color: #3730a3; }
+.tag-qtd      { background-color: #3a2410; color: #c4a882; }
 
-/* ═══════════════════════════════
-   MODAL — corrigido para iOS
-═══════════════════════════════ */
+.empty { text-align: center; padding: 52px 24px; }
+.empty-icon { font-size: 50px; margin-bottom: 12px; }
+.empty-p    { font-size: 15px; color: #c4a882; font-weight: 700; margin-bottom: 4px; }
+.empty-s    { font-size: 13px; color: #8a6848; }
+
+/* ══════════════════════════════════════
+   MODAL
+══════════════════════════════════════ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 900;
-  /* Começa invisível */
   visibility: hidden;
   opacity: 0;
   transition: opacity .22s ease, visibility 0s linear .22s;
+  /* Impede scroll da página ao fundo */
+  overscroll-behavior: none;
 }
 .modal-backdrop.open {
   visibility: visible;
@@ -250,28 +266,29 @@
   transition: opacity .22s ease, visibility 0s linear 0s;
 }
 
-/* Fundo escuro clicável */
 .modal-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.72);
+  background-color: rgba(0,0,0,.75);
 }
 
-/* Modal — fundo sólido garantido */
 .modal {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   z-index: 10;
-  background: #2a1a08; /* hardcoded, sem var() para garantir no iOS */
-  border-radius: 28px 28px 0 0;
+  /* Fundo sólido hardcoded — não usa var() */
+  background-color: #2a1a08;
+  border-radius: 26px 26px 0 0;
   border-top: 1.5px solid #4a3018;
-  max-height: 92vh;
+  max-height: 93vh;
   display: flex;
   flex-direction: column;
+  /* Safe area inferior */
+  padding-bottom: env(safe-area-inset-bottom);
   transform: translateY(100%);
   -webkit-transform: translateY(100%);
-  transition: transform .3s cubic-bezier(.34,1.1,.64,1);
-  -webkit-transition: -webkit-transform .3s cubic-bezier(.34,1.1,.64,1);
+  transition: transform .28s cubic-bezier(.34,1.05,.64,1);
+  -webkit-transition: -webkit-transform .28s cubic-bezier(.34,1.05,.64,1);
 }
 .modal-backdrop.open .modal {
   transform: translateY(0);
@@ -279,14 +296,15 @@
 }
 
 .modal-handle {
-  width: 40px; height: 4px;
-  background: #4a3018;
+  width: 38px; height: 4px;
+  background-color: #4a3018;
   border-radius: 2px;
   margin: 12px auto 0;
   flex-shrink: 0;
 }
+
 .modal-header {
-  padding: 14px 20px 16px;
+  padding: 12px 20px 14px;
   border-bottom: 1px solid #4a3018;
   display: flex; align-items: center; justify-content: space-between;
   flex-shrink: 0;
@@ -295,149 +313,165 @@
   font-family: 'Nunito', sans-serif;
   font-size: 18px; font-weight: 900; color: #fef9f0;
 }
+
 .modal-body {
-  padding: 18px 20px 32px;
+  padding: 16px 20px 24px;
   overflow-y: auto; flex: 1;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
 
-/* FORM */
-.form-group { margin-bottom: 20px; }
-.form-label {
+/* ── FORM ── */
+.fg { margin-bottom: 18px; }
+.fl {
   display: block;
   font-family: 'Nunito', sans-serif;
-  font-size: 12px; font-weight: 800;
+  font-size: 11.5px; font-weight: 800;
   color: #c4a882;
-  text-transform: uppercase; letter-spacing: .7px;
-  margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 7px;
 }
-.form-label .req { color: #f59e0b; }
-.form-input {
+.fl .req { color: #f59e0b; }
+.fl .opt { color: #8a6848; font-size: 10.5px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+
+.fi {
   width: 100%;
   padding: 13px 16px;
-  background: #3a2410;
+  background-color: #3a2410;
   border: 2px solid #4a3018;
-  border-radius: 14px;
+  border-radius: 13px;
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 16px; /* 16px evita zoom automático no iOS */
+  font-size: 16px; /* 16px evita zoom no iOS */
   color: #fef9f0;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
 }
-.form-input:focus { border-color: #f59e0b; }
-.form-input::placeholder { color: #8a6848; }
-.form-input.err { border-color: #ef4444; }
+.fi:focus { border-color: #f59e0b; }
+.fi::placeholder { color: #6a4828; }
+.fi.err { border-color: #ef4444; }
+
+.em { font-size: 12px; color: #ef4444; font-weight: 700; margin-top: 4px; display: none; }
+.em.show { display: block; }
 
 /* TAMANHO */
-.size-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.size-btn { position: relative; cursor: pointer; }
-.size-btn input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-.size-label {
+.size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.size-btn  { position: relative; }
+.size-btn input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.size-lbl {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  gap: 3px; padding: 14px 8px;
-  background: #3a2410; border: 2px solid #4a3018;
-  border-radius: 14px; cursor: pointer;
+  gap: 3px; padding: 13px 8px;
+  background-color: #3a2410;
+  border: 2px solid #4a3018;
+  border-radius: 13px;
+  cursor: pointer;
   touch-action: manipulation;
   -webkit-user-select: none; user-select: none;
-  transition: background .15s, border-color .15s;
 }
-.size-letter { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; color: #c4a882; line-height: 1; }
-.size-name   { font-size: 10px; font-weight: 700; color: #8a6848; text-transform: uppercase; letter-spacing: .4px; }
-.size-price  { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #f59e0b; }
-.size-btn input[type="radio"]:checked + .size-label { background: #fef3c7; border-color: #f59e0b; }
-.size-btn input[type="radio"]:checked + .size-label .size-letter { color: #92400e; }
-.size-btn input[type="radio"]:checked + .size-label .size-name   { color: #92400e; }
+.size-lbl:active { opacity: .7; }
+.sl-letter { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; color: #c4a882; line-height: 1; }
+.sl-name   { font-size: 9.5px; font-weight: 800; color: #8a6848; text-transform: uppercase; letter-spacing: .4px; }
+.sl-price  { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: #f59e0b; }
+.size-btn input:checked + .size-lbl { background-color: #fef3c7; border-color: #f59e0b; }
+.size-btn input:checked + .size-lbl .sl-letter { color: #92400e; }
+.size-btn input:checked + .size-lbl .sl-name   { color: #92400e; }
 
 /* QUANTIDADE */
-.qty-row { display: flex; align-items: center; gap: 20px; }
+.qty-row { display: flex; align-items: center; gap: 18px; }
 .qty-btn {
   width: 48px; height: 48px;
-  background: #3a2410; border: 2px solid #4a3018;
-  border-radius: 12px; color: #fef9f0;
+  background-color: #3a2410;
+  border: 2px solid #4a3018;
+  border-radius: 12px;
+  color: #fef9f0;
   font-size: 24px; font-weight: 900;
   font-family: 'Nunito', sans-serif;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  touch-action: manipulation; -webkit-user-select: none; user-select: none;
-  -webkit-appearance: none;
 }
-.qty-btn:active { transform: scale(.88); }
 .qty-btn.mais { color: #f59e0b; border-color: #f59e0b; }
-.qty-display { font-family: 'Nunito', sans-serif; font-size: 26px; font-weight: 900; color: #fef9f0; min-width: 36px; text-align: center; }
+.qty-num {
+  font-family: 'Nunito', sans-serif;
+  font-size: 26px; font-weight: 900;
+  color: #fef9f0; min-width: 36px; text-align: center;
+}
 
 /* PAGAMENTO */
-.pay-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.pay-btn { position: relative; cursor: pointer; }
-.pay-btn input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
-.pay-label {
+.pay-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
+.pay-btn  { position: relative; }
+.pay-btn input { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
+.pay-lbl {
   display: flex; align-items: center; gap: 10px;
   padding: 13px 14px;
-  background: #3a2410; border: 2px solid #4a3018;
-  border-radius: 14px; cursor: pointer;
-  touch-action: manipulation; -webkit-user-select: none; user-select: none;
-  transition: background .15s, border-color .15s;
+  background-color: #3a2410;
+  border: 2px solid #4a3018;
+  border-radius: 13px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
 }
-.pay-emoji { font-size: 22px; line-height: 1; }
+.pay-lbl:active { opacity: .7; }
+.pay-emoji { font-size: 21px; line-height: 1; }
 .pay-name  { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #c4a882; }
-.pay-btn input[type="radio"]:checked + .pay-label { background: #fef3c7; border-color: #f59e0b; }
-.pay-btn input[type="radio"]:checked + .pay-label .pay-name { color: #92400e; }
+.pay-btn input:checked + .pay-lbl { background-color: #fef3c7; border-color: #f59e0b; }
+.pay-btn input:checked + .pay-lbl .pay-name { color: #92400e; }
 
 /* RESUMO */
-.order-summary {
-  background: #3a2410; border: 1.5px solid #4a3018;
-  border-radius: 14px; padding: 14px 16px; margin-bottom: 18px;
+.resumo {
+  background-color: #3a2410;
+  border: 1.5px solid #4a3018;
+  border-radius: 13px;
+  padding: 13px 15px;
+  margin-bottom: 16px;
 }
-.order-summary-title { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 800; color: #8a6848; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 10px; }
-.order-line { display: flex; justify-content: space-between; font-size: 13.5px; color: #c4a882; margin-bottom: 6px; }
-.order-total { display: flex; justify-content: space-between; font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #fef9f0; padding-top: 10px; margin-top: 6px; border-top: 1px solid #4a3018; }
-.order-total .price { color: #f59e0b; }
-
-/* ERROS */
-.err-msg { font-size: 12px; color: #ef4444; font-weight: 700; margin-top: 5px; display: none; }
-.err-msg.show { display: block; }
+.resumo-title { font-family: 'Nunito', sans-serif; font-size: 10.5px; font-weight: 800; color: #8a6848; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 9px; }
+.resumo-line  { display: flex; justify-content: space-between; font-size: 13.5px; color: #c4a882; margin-bottom: 5px; }
+.resumo-total { display: flex; justify-content: space-between; font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #fef9f0; padding-top: 9px; margin-top: 5px; border-top: 1px solid #4a3018; }
+.resumo-total .price { color: #f59e0b; }
 
 /* TOAST */
 .toast-wrap {
-  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 9999; display: flex; flex-direction: column;
-  align-items: center; gap: 8px;
+  position: fixed; top: max(16px, env(safe-area-inset-top));
+  left: 50%; transform: translateX(-50%);
+  z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
   width: calc(100% - 32px); max-width: 380px;
   pointer-events: none;
 }
 .toast {
   display: flex; align-items: center; gap: 10px;
-  padding: 13px 16px; border-radius: 14px;
+  padding: 13px 16px; border-radius: 13px;
   font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
-  width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,.4);
-  animation: toastIn .28s cubic-bezier(.34,1.4,.64,1) both;
+  width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,.5);
   pointer-events: all;
+  animation: tIn .25s cubic-bezier(.34,1.4,.64,1) both;
 }
-.toast.success { background: #16a34a; color: #fff; }
-.toast.error   { background: #ef4444; color: #fff; }
-.toast.info    { background: #3a2410; color: #fef9f0; border: 1px solid #4a3018; }
-@keyframes toastIn  { from { opacity:0; transform: translateY(-12px) scale(.92); } to { opacity:1; transform: translateY(0) scale(1); } }
-@keyframes toastOut { to   { opacity:0; transform: translateY(-8px)  scale(.92); } }
-.toast.out { animation: toastOut .2s ease forwards; }
+.toast.success { background-color: #16a34a; color: #fff; }
+.toast.error   { background-color: #ef4444; color: #fff; }
+.toast.info    { background-color: #3a2410; color: #fef9f0; border: 1px solid #4a3018; }
+@keyframes tIn  { from { opacity:0; transform:translateY(-10px) scale(.93); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes tOut { to   { opacity:0; transform:translateY(-8px)  scale(.93); } }
+.toast.out { animation: tOut .2s ease forwards; }
 
-/* SPINNER */
-.spinner { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+.spinner {
+  width: 18px; height: 18px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
 @keyframes spin { to { transform: rotate(360deg); } }
-
-@media (min-width: 480px) {
-  .modal { border-radius: 28px; max-width: 460px; left: 50%; right: auto; transform: translateX(-50%) translateY(100%); -webkit-transform: translateX(-50%) translateY(100%); bottom: 20px; }
-  .modal-backdrop.open .modal { transform: translateX(-50%) translateY(0); -webkit-transform: translateX(-50%) translateY(0); }
-}
 ```
 
   </style>
 </head>
 <body>
 
+<!-- Toasts -->
+
 <div class="toast-wrap" id="toastWrap"></div>
 
-<!-- HEADER -->
+<!-- ══ HEADER ══ -->
 
 <div class="header">
   <div class="header-top">
@@ -449,49 +483,51 @@
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-nova" id="btnNova">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      <button class="btn-nova" id="btnNova">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Nova Venda
       </button>
-      <button class="btn btn-ajuda" id="btnAjuda">
-        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <button class="btn-ajuda" id="btnAjuda">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </button>
     </div>
   </div>
   <div class="stats-row">
-    <div class="stat-pill"><div class="val" id="statVendas">0</div><div class="lbl">Vendas</div></div>
-    <div class="stat-pill"><div class="val" id="statTotal">R$0</div><div class="lbl">Total</div></div>
-    <div class="stat-pill"><div class="val" id="statHoje">0</div><div class="lbl">Hoje</div></div>
+    <div class="stat-pill"><span class="stat-val" id="sVendas">0</span><span class="stat-lbl">Vendas</span></div>
+    <div class="stat-pill"><span class="stat-val" id="sTotal">R$0</span><span class="stat-lbl">Total</span></div>
+    <div class="stat-pill"><span class="stat-val" id="sHoje">0</span><span class="stat-lbl">Hoje</span></div>
   </div>
 </div>
 
-<!-- BODY -->
+<!-- ══ BODY ══ -->
 
 <div class="body-wrap">
   <div class="filter-row" id="filterRow">
-    <div class="filter-chip active" data-filter="todos">Todos</div>
-    <div class="filter-chip" data-filter="pix">💚 Pix</div>
-    <div class="filter-chip" data-filter="dinheiro">💵 Dinheiro</div>
-    <div class="filter-chip" data-filter="credito">💳 Crédito</div>
-    <div class="filter-chip" data-filter="debito">💜 Débito</div>
-    <div class="filter-chip" data-filter="g">🍿 G</div>
-    <div class="filter-chip" data-filter="m">🍿 M</div>
-    <div class="filter-chip" data-filter="p">🍿 P</div>
+    <div class="filter-chip active" data-f="todos">Todos</div>
+    <div class="filter-chip" data-f="pix">💚 Pix</div>
+    <div class="filter-chip" data-f="dinheiro">💵 Dinheiro</div>
+    <div class="filter-chip" data-f="credito">💳 Crédito</div>
+    <div class="filter-chip" data-f="debito">💜 Débito</div>
+    <div class="filter-chip" data-f="g">🍿 G</div>
+    <div class="filter-chip" data-f="m">🍿 M</div>
+    <div class="filter-chip" data-f="p">🍿 P</div>
   </div>
+
   <div class="section-header">
     <span class="section-title">Vendas do Dia</span>
-    <span class="section-count" id="countLabel">0 registros</span>
+    <span class="section-count" id="countLbl">0 registros</span>
   </div>
+
   <div class="sales-list" id="salesList">
     <div class="empty">
       <div class="empty-icon">🍿</div>
-      <p>Nenhuma venda ainda</p>
-      <small>Toque em <strong>Nova Venda</strong> para registrar</small>
+      <p class="empty-p">Nenhuma venda ainda</p>
+      <p class="empty-s">Toque em <strong>Nova Venda</strong> para registrar</p>
     </div>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- ══ MODAL ══ -->
 
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal-overlay" id="modalOverlay"></div>
@@ -499,98 +535,98 @@
     <div class="modal-handle"></div>
     <div class="modal-header">
       <div class="modal-title">🍿 Nova Venda</div>
-      <button class="btn btn-cancelar" id="btnCancelar">Cancelar</button>
+      <button class="btn-cancelar" id="btnCancelar">Cancelar</button>
     </div>
     <div class="modal-body" id="modalBody">
 
 ```
   <!-- Cliente -->
-  <div class="form-group">
-    <label class="form-label" for="fCliente">Cliente <span class="req">*</span></label>
-    <input class="form-input" type="text" id="fCliente" placeholder="Nome do cliente"
+  <div class="fg">
+    <label class="fl" for="fCliente">Cliente <span class="req">*</span></label>
+    <input class="fi" type="text" id="fCliente" placeholder="Nome do cliente"
       autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" maxlength="80"/>
-    <div class="err-msg" id="eCliente">Informe o nome do cliente</div>
+    <div class="em" id="eCliente">Informe o nome do cliente</div>
   </div>
 
   <!-- Tamanho -->
-  <div class="form-group">
-    <label class="form-label">Tamanho da Pipoca <span class="req">*</span></label>
-    <div class="size-selector">
+  <div class="fg">
+    <label class="fl">Tamanho da Pipoca <span class="req">*</span></label>
+    <div class="size-grid">
       <label class="size-btn">
-        <input type="radio" name="tamanho" value="P" data-preco="6"/>
-        <div class="size-label"><span class="size-letter">P</span><span class="size-name">Pequena</span><span class="size-price">R$ 6</span></div>
+        <input type="radio" name="tam" value="P" data-preco="6"/>
+        <div class="size-lbl"><span class="sl-letter">P</span><span class="sl-name">Pequena</span><span class="sl-price">R$ 6</span></div>
       </label>
       <label class="size-btn">
-        <input type="radio" name="tamanho" value="M" data-preco="8"/>
-        <div class="size-label"><span class="size-letter">M</span><span class="size-name">Média</span><span class="size-price">R$ 8</span></div>
+        <input type="radio" name="tam" value="M" data-preco="8"/>
+        <div class="size-lbl"><span class="sl-letter">M</span><span class="sl-name">Média</span><span class="sl-price">R$ 8</span></div>
       </label>
       <label class="size-btn">
-        <input type="radio" name="tamanho" value="G" data-preco="10"/>
-        <div class="size-label"><span class="size-letter">G</span><span class="size-name">Grande</span><span class="size-price">R$ 10</span></div>
+        <input type="radio" name="tam" value="G" data-preco="10"/>
+        <div class="size-lbl"><span class="sl-letter">G</span><span class="sl-name">Grande</span><span class="sl-price">R$ 10</span></div>
       </label>
     </div>
-    <div class="err-msg" id="eTamanho">Selecione o tamanho</div>
+    <div class="em" id="eTam">Selecione o tamanho</div>
   </div>
 
   <!-- Quantidade -->
-  <div class="form-group">
-    <label class="form-label">Quantidade</label>
+  <div class="fg">
+    <label class="fl">Quantidade</label>
     <div class="qty-row">
-      <button type="button" class="qty-btn menos" id="btnMenos">−</button>
-      <div class="qty-display" id="qtdDisplay">1</div>
-      <button type="button" class="qty-btn mais" id="btnMais">+</button>
+      <button class="qty-btn menos" id="btnMenos">−</button>
+      <div class="qty-num" id="qtdNum">1</div>
+      <button class="qty-btn mais" id="btnMais">+</button>
     </div>
   </div>
 
   <!-- Sabor -->
-  <div class="form-group">
-    <label class="form-label" for="fSabor">Sabor <span style="color:#8a6848;font-size:11px;font-weight:600;text-transform:none;letter-spacing:0">(opcional)</span></label>
-    <input class="form-input" type="text" id="fSabor" placeholder="Ex: Manteiga, Queijo, Doce..."
+  <div class="fg">
+    <label class="fl" for="fSabor">Sabor <span class="opt">(opcional)</span></label>
+    <input class="fi" type="text" id="fSabor" placeholder="Ex: Manteiga, Queijo, Doce..."
       autocomplete="off" autocapitalize="words" maxlength="60"/>
   </div>
 
   <!-- Pagamento -->
-  <div class="form-group">
-    <label class="form-label">Forma de Pagamento <span class="req">*</span></label>
-    <div class="pay-selector">
+  <div class="fg">
+    <label class="fl">Forma de Pagamento <span class="req">*</span></label>
+    <div class="pay-grid">
       <label class="pay-btn">
-        <input type="radio" name="pagamento" value="Pix"/>
-        <div class="pay-label"><span class="pay-emoji">💚</span><span class="pay-name">Pix</span></div>
+        <input type="radio" name="pag" value="Pix"/>
+        <div class="pay-lbl"><span class="pay-emoji">💚</span><span class="pay-name">Pix</span></div>
       </label>
       <label class="pay-btn">
-        <input type="radio" name="pagamento" value="Dinheiro"/>
-        <div class="pay-label"><span class="pay-emoji">💵</span><span class="pay-name">Dinheiro</span></div>
+        <input type="radio" name="pag" value="Dinheiro"/>
+        <div class="pay-lbl"><span class="pay-emoji">💵</span><span class="pay-name">Dinheiro</span></div>
       </label>
       <label class="pay-btn">
-        <input type="radio" name="pagamento" value="Crédito"/>
-        <div class="pay-label"><span class="pay-emoji">💳</span><span class="pay-name">Crédito</span></div>
+        <input type="radio" name="pag" value="Crédito"/>
+        <div class="pay-lbl"><span class="pay-emoji">💳</span><span class="pay-name">Crédito</span></div>
       </label>
       <label class="pay-btn">
-        <input type="radio" name="pagamento" value="Débito"/>
-        <div class="pay-label"><span class="pay-emoji">💜</span><span class="pay-name">Débito</span></div>
+        <input type="radio" name="pag" value="Débito"/>
+        <div class="pay-lbl"><span class="pay-emoji">💜</span><span class="pay-name">Débito</span></div>
       </label>
     </div>
-    <div class="err-msg" id="ePagamento">Selecione a forma de pagamento</div>
+    <div class="em" id="ePag">Selecione a forma de pagamento</div>
   </div>
 
   <!-- Obs -->
-  <div class="form-group">
-    <label class="form-label" for="fObs">Observação <span style="color:#8a6848;font-size:11px;font-weight:600;text-transform:none;letter-spacing:0">(opcional)</span></label>
-    <input class="form-input" type="text" id="fObs" placeholder="Alguma observação..."
+  <div class="fg">
+    <label class="fl" for="fObs">Observação <span class="opt">(opcional)</span></label>
+    <input class="fi" type="text" id="fObs" placeholder="Alguma observação..."
       autocomplete="off" maxlength="100"/>
   </div>
 
   <!-- Resumo -->
-  <div class="order-summary" id="orderSummary" style="display:none">
-    <div class="order-summary-title">📋 Resumo do Pedido</div>
-    <div class="order-line"><span id="sumDesc">—</span><span id="sumPrecoUnit">—</span></div>
-    <div class="order-line"><span>Quantidade</span><span id="sumQtd">1x</span></div>
-    <div class="order-total"><span>Total</span><span class="price" id="sumTotal">R$ 0,00</span></div>
+  <div class="resumo" id="resumo" style="display:none">
+    <div class="resumo-title">📋 Resumo do Pedido</div>
+    <div class="resumo-line"><span id="rDesc">—</span><span id="rUnit">—</span></div>
+    <div class="resumo-line"><span>Quantidade</span><span id="rQtd">1x</span></div>
+    <div class="resumo-total"><span>Total</span><span class="price" id="rTotal">R$ 0,00</span></div>
   </div>
 
   <!-- Salvar -->
-  <button type="button" class="btn btn-salvar" id="btnSalvar">
-    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+  <button class="btn-salvar" id="btnSalvar">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
     Registrar Venda
   </button>
 
@@ -601,270 +637,259 @@
 </div>
 
 <script>
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfWgFmGrCTzBtjbrwVN5NIfOdEj7UYxwr6q3mvRUs/exec';
+var URL_GAS = 'https://script.google.com/macros/s/AKfycbyfWgFmGrCTzBtjbrwVN5NIfOdEj7UYxwr6q3mvRUs/exec';
 
-const el   = id => document.getElementById(id);
-const fmt  = v  => 'R$ ' + Number(v).toFixed(2).replace('.', ',');
-const hoje = () => new Date().toLocaleDateString('pt-BR');
+var vendas  = [];
+var qtd     = 1;
+var filtro  = 'todos';
 
-let vendas = [];
-let qtd    = 1;
-let filtroAtivo = 'todos';
+var G = function(id){ return document.getElementById(id); };
+var fmt = function(v){ return 'R$ ' + Number(v).toFixed(2).replace('.', ','); };
+var hoje = function(){ return new Date().toLocaleDateString('pt-BR'); };
+var esc  = function(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
 
-// ── Comunicação com Apps Script ──
-function enviar(params) {
-  return new Promise((resolve) => {
-    const cbName = '_cb_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-    const qs     = new URLSearchParams({ ...params, callback: cbName }).toString();
-    const url    = APPS_SCRIPT_URL + '?' + qs;
-    let done     = false;
+/* ── JSONP / fallback ── */
+function enviar(p) {
+  return new Promise(function(resolve) {
+    var cb   = '_c' + Date.now() + Math.random().toString(36).slice(2);
+    var qs   = Object.keys(p).map(function(k){ return encodeURIComponent(k)+'='+encodeURIComponent(p[k]); }).join('&');
+    var url  = URL_GAS + '?' + qs + '&callback=' + cb;
+    var done = false;
 
-    const fim = (data) => {
-      if (done) return;
-      done = true;
-      clearTimeout(tout);
-      delete window[cbName];
+    var acabou = function(data) {
+      if (done) return; done = true;
+      clearTimeout(t);
+      try { delete window[cb]; } catch(e){}
       try { if (sc.parentNode) sc.parentNode.removeChild(sc); } catch(e){}
       resolve(data);
     };
 
-    const tout = setTimeout(() => {
-      fim({ status: 'success', message: 'Enviado!', data: [] });
+    var t = setTimeout(function(){
+      acabou({ status:'success', data:[], message:'ok' });
     }, 12000);
 
-    window[cbName] = (data) => fim(data);
+    window[cb] = acabou;
 
-    const sc   = document.createElement('script');
-    sc.src     = url;
-    sc.async   = true;
-    sc.onerror = () => {
-      fetch(url, { method: 'GET', mode: 'no-cors' })
-        .then(() => fim({ status: 'success', message: 'Enviado!', data: [] }))
-        .catch(() => fim({ status: 'success', message: 'Enviado!', data: [] }));
+    var sc = document.createElement('script');
+    sc.async = true;
+    sc.src   = url;
+    sc.onerror = function() {
+      fetch(url, { method:'GET', mode:'no-cors' })
+        .then(function(){ acabou({ status:'success', data:[], message:'ok' }); })
+        .catch(function(){ acabou({ status:'success', data:[], message:'ok' }); });
     };
     document.head.appendChild(sc);
   });
 }
 
-// ── Toast ──
+/* ── Toast ── */
 function toast(msg, type) {
   type = type || 'success';
-  const ic = { success:'✅', error:'❌', info:'ℹ️' };
-  const t  = document.createElement('div');
+  var ic = { success:'✅', error:'❌', info:'ℹ️' };
+  var t  = document.createElement('div');
   t.className = 'toast ' + type;
-  t.innerHTML = '<span>' + (ic[type]||'') + '</span> ' + msg;
-  el('toastWrap').prepend(t);
-  setTimeout(function() {
+  t.textContent = (ic[type] || '') + ' ' + msg;
+  G('toastWrap').prepend(t);
+  setTimeout(function(){
     t.classList.add('out');
-    setTimeout(function() { try { t.remove(); } catch(e){} }, 220);
+    setTimeout(function(){ try{ t.remove(); }catch(e){} }, 220);
   }, 3500);
 }
 
-// ── Render ──
-const tagPag = { 'Pix':'tag-pix','Dinheiro':'tag-dinheiro','Crédito':'tag-credito','Débito':'tag-debito' };
-const tagTam = { 'P':'tag-p','M':'tag-m','G':'tag-g' };
-const emojis = ['🍿','🎉','✨','🌟','🎊','💛'];
+/* ── Render ── */
+var tPag = { 'Pix':'tag-pix','Dinheiro':'tag-dinheiro','Crédito':'tag-credito','Débito':'tag-debito' };
+var tTam = { 'P':'tag-p','M':'tag-m','G':'tag-g' };
+var emos = ['🍿','🎉','✨','🌟','🎊','💛'];
 
-function renderVendas(data) {
-  const total    = data.reduce(function(s,v){ return s + (parseFloat(v.total)||0); }, 0);
-  const hojeStr  = hoje();
-  const qtdHoje  = data.filter(function(v){ return v.data === hojeStr; }).length;
-  el('statVendas').textContent = data.length;
-  el('statTotal').textContent  = 'R$' + total.toFixed(0);
-  el('statHoje').textContent   = qtdHoje;
-  el('countLabel').textContent = data.length + ' registro' + (data.length !== 1 ? 's' : '');
+function render(data) {
+  var total = 0;
+  for(var i=0;i<data.length;i++) total += parseFloat(data[i].total)||0;
+  var hj  = hoje();
+  var nhj = 0;
+  for(var i=0;i<data.length;i++) if(data[i].data===hj) nhj++;
 
-  var lista = filtroAtivo === 'todos' ? data : data.filter(function(v) {
-    var map = { pix:'Pix', dinheiro:'Dinheiro', credito:'Crédito', debito:'Débito' };
-    if (map[filtroAtivo]) return v.pagamento === map[filtroAtivo];
-    return v.tamanho === filtroAtivo.toUpperCase();
-  });
+  G('sVendas').textContent = data.length;
+  G('sTotal').textContent  = 'R$' + total.toFixed(0);
+  G('sHoje').textContent   = nhj;
+  G('countLbl').textContent = data.length + ' registro' + (data.length!==1?'s':'');
+
+  var lista = data;
+  if (filtro !== 'todos') {
+    var mp = { pix:'Pix', dinheiro:'Dinheiro', credito:'Crédito', debito:'Débito' };
+    lista  = data.filter(function(v){
+      if (mp[filtro]) return v.pagamento === mp[filtro];
+      return v.tamanho === filtro.toUpperCase();
+    });
+  }
 
   if (!lista.length) {
-    el('salesList').innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>' +
-      (filtroAtivo === 'todos' ? 'Nenhuma venda ainda' : 'Nenhuma venda nesse filtro') +
-      '</p><small>' + (filtroAtivo === 'todos' ? 'Toque em <strong>Nova Venda</strong> para registrar' : 'Tente outro filtro') + '</small></div>';
+    G('salesList').innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>' +
+      '<p class="empty-p">' + (filtro==='todos'?'Nenhuma venda ainda':'Nenhuma venda nesse filtro') + '</p>' +
+      '<p class="empty-s">' + (filtro==='todos'?'Toque em <strong>Nova Venda</strong> para registrar':'Tente outro filtro') + '</p></div>';
     return;
   }
 
   var sorted = lista.slice().reverse();
-  el('salesList').innerHTML = sorted.map(function(v, i) {
-    var emoji = emojis[i % emojis.length];
-    var cPag  = tagPag[v.pagamento] || 'tag-pix';
-    var cTam  = tagTam[v.tamanho]   || 'tag-m';
-    return '<div class="sale-card" style="animation-delay:' + (i*0.04) + 's">' +
-      '<div class="sale-emoji">' + emoji + '</div>' +
+  var html = '';
+  for(var i=0;i<sorted.length;i++){
+    var v = sorted[i];
+    var em = emos[i % emos.length];
+    var cp = tPag[v.pagamento] || 'tag-pix';
+    var ct = tTam[v.tamanho]   || 'tag-m';
+    html += '<div class="sale-card" style="animation-delay:'+( i*0.04)+'s">' +
+      '<div class="sale-emoji">'+em+'</div>' +
       '<div class="sale-info">' +
         '<div class="sale-top">' +
-          '<div class="sale-client">' + esc(v.cliente) + '</div>' +
-          '<div class="sale-price">' + fmt(v.total) + '</div>' +
+          '<div class="sale-client">'+esc(v.cliente)+'</div>' +
+          '<div class="sale-price">'+fmt(v.total)+'</div>' +
         '</div>' +
-        '<div class="sale-detail">' +
-          '<span class="tag ' + cTam + '">Pipoca ' + esc(v.tamanho) + '</span>' +
-          (v.qtd > 1 ? '<span class="tag" style="background:#3a2410;color:#c4a882">x' + v.qtd + '</span>' : '') +
-          (v.sabor ? '<span style="color:#8a6848;font-size:12px">' + esc(v.sabor) + '</span>' : '') +
-          '<span class="tag ' + cPag + '">' + esc(v.pagamento) + '</span>' +
+        '<div class="sale-tags">' +
+          '<span class="tag '+ct+'">Pipoca '+esc(v.tamanho)+'</span>' +
+          (v.qtd>1?'<span class="tag tag-qtd">x'+v.qtd+'</span>':'') +
+          (v.sabor?'<span style="font-size:12px;color:#8a6848">'+esc(v.sabor)+'</span>':'') +
+          '<span class="tag '+cp+'">'+esc(v.pagamento)+'</span>' +
         '</div>' +
-        '<div class="sale-time">🕐 ' + esc(v.hora||'—') + (v.obs ? ' · ' + esc(v.obs) : '') + '</div>' +
+        '<div class="sale-time">🕐 '+esc(v.hora||'—')+(v.obs?' · '+esc(v.obs):'')+  '</div>' +
       '</div></div>';
-  }).join('');
+  }
+  G('salesList').innerHTML = html;
 }
 
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-// ── Filtros ──
-el('filterRow').addEventListener('click', function(e) {
+/* ── Filtros ── */
+G('filterRow').addEventListener('click', function(e) {
   var chip = e.target.closest('.filter-chip');
   if (!chip) return;
   document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.remove('active'); });
   chip.classList.add('active');
-  filtroAtivo = chip.dataset.filter;
-  renderVendas(vendas);
+  filtro = chip.dataset.f;
+  render(vendas);
 });
 
-// ── Quantidade ──
-el('btnMenos').addEventListener('click', function() {
-  if (qtd > 1) { qtd--; el('qtdDisplay').textContent = qtd; atualizarResumo(); }
+/* ── Quantidade ── */
+G('btnMenos').addEventListener('click', function(){
+  if(qtd>1){ qtd--; G('qtdNum').textContent=qtd; atualizarResumo(); }
 });
-el('btnMais').addEventListener('click', function() {
-  qtd++; el('qtdDisplay').textContent = qtd; atualizarResumo();
+G('btnMais').addEventListener('click', function(){
+  qtd++; G('qtdNum').textContent=qtd; atualizarResumo();
 });
 
-// ── Resumo ──
+/* ── Resumo ── */
 function atualizarResumo() {
-  var tamEl = document.querySelector('input[name="tamanho"]:checked');
-  if (!tamEl) { el('orderSummary').style.display = 'none'; return; }
-  var preco = parseFloat(tamEl.dataset.preco);
-  var total = preco * qtd;
-  el('sumDesc').textContent      = 'Pipoca ' + tamEl.value;
-  el('sumPrecoUnit').textContent = fmt(preco) + ' cada';
-  el('sumQtd').textContent       = qtd + 'x';
-  el('sumTotal').textContent     = fmt(total);
-  el('orderSummary').style.display = 'block';
+  var t = document.querySelector('input[name="tam"]:checked');
+  if (!t) { G('resumo').style.display='none'; return; }
+  var p = parseFloat(t.dataset.preco);
+  G('rDesc').textContent = 'Pipoca ' + t.value;
+  G('rUnit').textContent = fmt(p) + ' cada';
+  G('rQtd').textContent  = qtd + 'x';
+  G('rTotal').textContent = fmt(p * qtd);
+  G('resumo').style.display = 'block';
 }
-document.querySelectorAll('input[name="tamanho"]').forEach(function(r) {
+document.querySelectorAll('input[name="tam"]').forEach(function(r){
   r.addEventListener('change', atualizarResumo);
 });
 
-// ── Modal ──
+/* ── Modal ── */
 function abrirModal() {
-  el('modalBackdrop').classList.add('open');
+  G('modalBackdrop').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function fecharModal() {
-  el('modalBackdrop').classList.remove('open');
+  G('modalBackdrop').classList.remove('open');
   document.body.style.overflow = '';
   setTimeout(resetForm, 350);
 }
 function resetForm() {
-  el('fCliente').value = '';
-  el('fSabor').value   = '';
-  el('fObs').value     = '';
-  document.querySelectorAll('input[name="tamanho"]').forEach(function(r){ r.checked = false; });
-  document.querySelectorAll('input[name="pagamento"]').forEach(function(r){ r.checked = false; });
-  qtd = 1;
-  el('qtdDisplay').textContent = '1';
-  el('orderSummary').style.display = 'none';
-  el('fCliente').classList.remove('err');
-  el('eCliente').classList.remove('show');
-  el('eTamanho').classList.remove('show');
-  el('ePagamento').classList.remove('show');
-  try { el('modalBody').scrollTop = 0; } catch(e){}
+  G('fCliente').value = '';
+  G('fSabor').value   = '';
+  G('fObs').value     = '';
+  document.querySelectorAll('input[name="tam"]').forEach(function(r){ r.checked=false; });
+  document.querySelectorAll('input[name="pag"]').forEach(function(r){ r.checked=false; });
+  qtd=1; G('qtdNum').textContent='1';
+  G('resumo').style.display='none';
+  G('fCliente').classList.remove('err');
+  G('eCliente').classList.remove('show');
+  G('eTam').classList.remove('show');
+  G('ePag').classList.remove('show');
+  try{ G('modalBody').scrollTop=0; }catch(e){}
 }
 
-el('btnNova').addEventListener('click', abrirModal);
-el('btnCancelar').addEventListener('click', fecharModal);
-el('modalOverlay').addEventListener('click', fecharModal);
-el('btnAjuda').addEventListener('click', function() {
-  toast('Link: briciussdev.github.io/pipoca-control/pipocas.html', 'info');
+G('btnNova').addEventListener('click', abrirModal);
+G('btnCancelar').addEventListener('click', fecharModal);
+G('modalOverlay').addEventListener('click', fecharModal);
+G('btnAjuda').addEventListener('click', function(){
+  toast('briciussdev.github.io/pipoca-control/pipocas.html', 'info');
 });
 
-// ── Validação ──
+/* ── Validar ── */
 function validar() {
   var ok = true;
-  if (!el('fCliente').value.trim()) {
-    el('fCliente').classList.add('err');
-    el('eCliente').classList.add('show');
-    ok = false;
-  } else {
-    el('fCliente').classList.remove('err');
-    el('eCliente').classList.remove('show');
-  }
-  if (!document.querySelector('input[name="tamanho"]:checked')) {
-    el('eTamanho').classList.add('show'); ok = false;
-  } else { el('eTamanho').classList.remove('show'); }
-  if (!document.querySelector('input[name="pagamento"]:checked')) {
-    el('ePagamento').classList.add('show'); ok = false;
-  } else { el('ePagamento').classList.remove('show'); }
+  if (!G('fCliente').value.trim()) {
+    G('fCliente').classList.add('err'); G('eCliente').classList.add('show'); ok=false;
+  } else { G('fCliente').classList.remove('err'); G('eCliente').classList.remove('show'); }
+  if (!document.querySelector('input[name="tam"]:checked')) {
+    G('eTam').classList.add('show'); ok=false;
+  } else { G('eTam').classList.remove('show'); }
+  if (!document.querySelector('input[name="pag"]:checked')) {
+    G('ePag').classList.add('show'); ok=false;
+  } else { G('ePag').classList.remove('show'); }
   return ok;
 }
-el('fCliente').addEventListener('input', function() {
-  el('fCliente').classList.remove('err');
-  el('eCliente').classList.remove('show');
+G('fCliente').addEventListener('input', function(){
+  G('fCliente').classList.remove('err'); G('eCliente').classList.remove('show');
 });
 
-// ── Salvar ──
-el('btnSalvar').addEventListener('click', function() {
+/* ── Salvar ── */
+G('btnSalvar').addEventListener('click', function() {
   if (!validar()) return;
+  var te = document.querySelector('input[name="tam"]:checked');
+  var pe = document.querySelector('input[name="pag"]:checked');
+  var pr = parseFloat(te.dataset.preco);
+  var to = pr * qtd;
+  var ag = new Date();
+  var hr = ag.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  var dt = ag.toLocaleDateString('pt-BR');
 
-  var tamEl  = document.querySelector('input[name="tamanho"]:checked');
-  var pagEl  = document.querySelector('input[name="pagamento"]:checked');
-  var preco  = parseFloat(tamEl.dataset.preco);
-  var total  = preco * qtd;
-  var agora  = new Date();
-  var hora   = agora.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-  var data   = agora.toLocaleDateString('pt-BR');
-
-  var venda = {
-    action:    'inserir',
-    cliente:   el('fCliente').value.trim(),
-    tamanho:   tamEl.value,
-    preco:     preco,
-    qtd:       qtd,
-    total:     total,
-    sabor:     el('fSabor').value.trim(),
-    pagamento: pagEl.value,
-    obs:       el('fObs').value.trim(),
-    hora:      hora,
-    data:      data,
+  var v = {
+    action:'inserir', cliente:G('fCliente').value.trim(),
+    tamanho:te.value, preco:pr, qtd:qtd, total:to,
+    sabor:G('fSabor').value.trim(), pagamento:pe.value,
+    obs:G('fObs').value.trim(), hora:hr, data:dt
   };
 
-  var btn  = el('btnSalvar');
+  var btn  = G('btnSalvar');
   var orig = btn.innerHTML;
   btn.innerHTML = '<div class="spinner"></div> Salvando...';
   btn.disabled  = true;
 
-  enviar(venda).then(function(result) {
-    vendas.unshift(Object.assign({}, venda));
-    renderVendas(vendas);
+  enviar(v).then(function() {
+    vendas.unshift({
+      cliente:v.cliente, tamanho:v.tamanho, preco:v.preco,
+      qtd:v.qtd, total:v.total, sabor:v.sabor, pagamento:v.pagamento,
+      obs:v.obs, hora:v.hora, data:v.data
+    });
+    render(vendas);
     fecharModal();
-    toast('Venda de ' + fmt(total) + ' registrada! 🍿', 'success');
-  }).catch(function(err) {
-    toast('Erro: ' + err.message, 'error');
-  }).finally(function() {
+    toast('Venda de ' + fmt(to) + ' registrada! 🍿', 'success');
+  }).catch(function(e){
+    toast('Erro: ' + e.message, 'error');
+  }).finally(function(){
     btn.innerHTML = orig;
     btn.disabled  = false;
   });
 });
 
-// ── Carregar ──
-function carregarVendas() {
-  enviar({ action: 'listar' }).then(function(result) {
-    if (result.status === 'success' && result.data && result.data.length) {
-      vendas = result.data;
-      renderVendas(vendas);
+/* ── Carregar ── */
+function carregar() {
+  enviar({ action:'listar' }).then(function(r){
+    if (r && r.data && r.data.length) {
+      vendas = r.data;
+      render(vendas);
     }
-  }).catch(function(err) {
-    console.error('Erro ao carregar:', err);
-  });
+  }).catch(function(){});
 }
 
-// ── Init ──
-renderVendas([]);
-carregarVendas();
+render([]);
+carregar();
 </script>
 
 </body>
